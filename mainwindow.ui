@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>150</y>
+      <x>100</x>
+      <y>160</y>
       <width>291</width>
       <height>481</height>
      </rect>
@@ -56,37 +56,11 @@ font: 14pt &quot;Bell MT&quot;;</string>
       <string>prenom</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>111</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string> Email</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>200</y>
-       <width>141</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>num tel</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>250</y>
+       <y>150</y>
        <width>56</width>
        <height>16</height>
       </rect>
@@ -98,27 +72,14 @@ font: 14pt &quot;Bell MT&quot;;</string>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>290</y>
+       <x>10</x>
+       <y>200</y>
        <width>71</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
       <string>salaire</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>340</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>role</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_nom">
@@ -147,7 +108,7 @@ font: 14pt &quot;Bell MT&quot;;</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_adresse">
+    <widget class="QLineEdit" name="lineEdit_cin">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -160,7 +121,7 @@ font: 14pt &quot;Bell MT&quot;;</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_tel">
+    <widget class="QLineEdit" name="lineEdit_salaire">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -170,73 +131,8 @@ font: 14pt &quot;Bell MT&quot;;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_cin">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>240</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_salaire">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>290</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
       <string notr="true">
 background-color: rgb(255, 255, 255);</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_role">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>340</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_8">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>370</y>
-       <width>56</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>age</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_age">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>390</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -272,6 +168,58 @@ background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>quitter</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>151</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>dembauche</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_demb">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>250</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_abs">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>300</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>absence</string>
      </property>
     </widget>
    </widget>

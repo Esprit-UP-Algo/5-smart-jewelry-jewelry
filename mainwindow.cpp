@@ -22,12 +22,11 @@ void MainWindow::on_pushButton_clicked()
     employe e ;
     e.setnom(ui->lineEdit_nom->text());
     e.setprenom(ui->lineEdit_prenom->text());
-    e.setemail(ui->lineEdit_adresse->text());
-    e.setnumtel(ui->lineEdit_tel->text());
+    e.setabs(ui->lineEdit_abs->text());
     e.setsalaire(ui->lineEdit_salaire->text());
     e.setcin(ui->lineEdit_cin->text());
-    e.setrole(ui->lineEdit_role->text());
-    e.setage(ui->lineEdit_age->text());
+    e.setdemb(ui->lineEdit_demb->text());
+
 
     Dialog d;
     d.setemploye(e);
