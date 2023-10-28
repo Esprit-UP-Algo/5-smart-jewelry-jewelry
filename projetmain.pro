@@ -25,15 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    dialog.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    produit.cpp
 
 HEADERS += \
+    dialog.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    produit.h
 
 FORMS += \
+        Interface.ui \
         mainwindow.ui
 
 # Default rules for deployment.

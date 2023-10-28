@@ -1,14 +1,16 @@
 #include "mainwindow.h"
+#include "connection.h"
+#include "dialog.h"
 #include <QApplication>
 #include <QMessageBox>
-#include "connection.h"
+
 int main(int argc, char *argv[])
 {
     //for commit
     QApplication a(argc, argv);
     MainWindow w;
     Connection c;
-    bool test=c.createconnect();
+    /*bool test=c.createconnect();
     if(test)
     {w.show();
         QMessageBox::critical(nullptr, QObject::tr("database is open"),
@@ -19,9 +21,12 @@ int main(int argc, char *argv[])
     else
         QMessageBox::critical(nullptr, QObject::tr("database is not open"),
                     QObject::tr("connection failed.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+                                "Click Cancel to exit."), QMessageBox::Cancel);*/
 
 
-
+    Dialog d;
+    w.resize(1370,749);
+    d.resize(1370,749);
+    d.show();
     return a.exec();
 }
