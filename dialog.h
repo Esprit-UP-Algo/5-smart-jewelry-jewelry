@@ -1,6 +1,6 @@
 #ifndef DIALOG_H
 #define DIALOG_H
-
+#include <QTableView>
 #include <QDialog>
 #include "produit.h"
 namespace Ui {
@@ -16,9 +16,11 @@ public:
     void setProduit(Produit p);
     ~Dialog();
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_Add_clicked();
+    void on_pushButton_Delete_clicked();
 private:
     Ui::Dialog *ui;
+    Produit Ptemp;
 };
 
 #endif // DIALOG_H

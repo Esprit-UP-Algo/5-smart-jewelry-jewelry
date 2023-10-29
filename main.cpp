@@ -25,8 +25,7 @@ int main(int argc, char *argv[])
 
 
     Dialog d;
-    w.resize(1370,749);
-    //d.resize(1370,749);
+
     d.show();
     return a.exec();
 }
