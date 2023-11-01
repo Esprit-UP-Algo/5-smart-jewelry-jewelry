@@ -21,3 +21,5 @@ test=true;
 
     return  test;
 }
+
+void Conection::closeConnection() {db.close();}

@@ -1,28 +1,42 @@
 #ifndef EMPLOYE_H
 #define EMPLOYE_H
 #include <QString>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+
 
 class employe
 {
+
 public:
-
-     void setprenom(QString n);
-     void setnom(QString n);
-     void setabs(QString n);
-     void setnumtel(QString n);
-     void setsalaire(QString n);
-     void setcin(QString n);
-     void setdemb(QString n);
-     QString get_prenom();
-     QString get_nom();
-     QString get_abs();
-     QString get_salaire();
-     QString get_cin();
-     QString get_demb();
-
     employe();
-private:
-    QString nom, prenom, abs, salaire , cin, demb;
+    employe(QString,QString,int,int,int,int);
+
+
+    QString getnom(){return nom;}
+    QString getprenom(){return prenom;}
+    int getcin(){return CIN;}
+    int getsalaire(){return salaire;}
+    int getdateE(){return dateE;}
+
+    int getabs(){return abs;}
+    void setcin(int nvcin){CIN=nvcin;}
+    void setnom(QString n){nom=n;}
+    void setprenom(QString p){prenom=p;}
+    void setsalaire(int s){salaire=s;}
+    void setdateE(int d){dateE=d;}
+
+    void setabs(int a){abs=a;}
+    QString nom,prenom;
+    int CIN,salaire,dateE,abs;
+
+
+
+    bool ajouter();
+    QSqlQueryModel * afficher();
+    bool supprimer(int);
+
+
 };
 
 #endif // EMPLOYE_H

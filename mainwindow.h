@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "employe.h"
+
 
 #include <QMainWindow>
 
@@ -16,13 +18,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
+    void on_pushButton_ajouter_clicked();
 
 
+
+    void on_pushButton_supprimer_clicked();
+
+
+    void on_tabWidget_tabBarClicked(int index);
 
 private:
     Ui::MainWindow *ui;
+    employe e;
 };
 #endif // MAINWINDOW_H

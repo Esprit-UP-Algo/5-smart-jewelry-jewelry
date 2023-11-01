@@ -18,25 +18,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     conection.cpp \
-    dialog.cpp \
     employe.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     conection.h \
-    dialog.h \
     employe.h \
     mainwindow.h
 
 FORMS += \
-    dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    cap.qrc
