@@ -40,7 +40,6 @@ bool Produit::ajouter(){
  QSqlQuery query;
  QIntValidator* intValidator= new QIntValidator();
  intValidator->setRange(0,9);
- //QlineEdit_
  query.prepare("insert into Produit (ID, Nom, Type, Poids, Prix, Qte)" "values(:ID, :Nom, :Type ,:Poids, :Prix, :Qte)");
 
  query.bindValue(":ID",ID);

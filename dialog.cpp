@@ -53,23 +53,34 @@ void Dialog::on_pushButton_Add_clicked(){
     QString Qte=ui->lineEdit_Qte->text();
 
    Produit P(ID,Nom,Type,Poids,Prix,Qte);
+   if(ui->lineEdit_Nom->text().isEmpty()||ui->lineEdit_Type->text().isEmpty()||ui->lineEdit_Poids->text().isEmpty()||ui->lineEdit_Prix->text().isEmpty()||ui->lineEdit_Qte->text().isEmpty()) {
+           QMessageBox::critical(nullptr, QObject::tr("Erreur"),
+           QObject::tr("Information manquante.\n""Achevez la complétion."), QMessageBox::Cancel);}
+   else{
    bool test=P.ajouter();
    if (test){
        ui->tableView->setModel(Ptemp.afficher());
        QMessageBox::information(nullptr,QObject::tr("OK"),QObject::tr("Ajout effectué \n"),QMessageBox::Cancel);
    }
    else QMessageBox::critical(nullptr,QObject::tr("Not OK"), QObject::tr("Ajout non effectué\n"),QMessageBox::Cancel);
-}
+}}
 
 void Dialog::on_pushButton_Delete_clicked(){
     int ID=ui->lineEdit_IDd->text().toInt();
+    int existe=0;
+    QSqlQuery query;
+    query.prepare("select * from Produit where ID=:ID");
+    if (query.exec())
+        while (query.next()){existe++;}
+    if (existe!=0){
     bool test=Ptemp.supprimer(ID);
     if (test){
         ui->tableView->setModel(Ptemp.afficher());
         QMessageBox::information(nullptr,QObject::tr("OK"),QObject::tr("Supression effectuée \n"),QMessageBox::Cancel);
     }
     else QMessageBox::critical(nullptr,QObject::tr("Not OK"), QObject::tr("Suppression non effectuée\n"),QMessageBox::Cancel);
-
+    }
+    else if(existe==0){QMessageBox::critical(nullptr, QObject::tr("Erreur"), QObject::tr("Ce produit n'existe pas.\n"), QMessageBox::Cancel);}
 }
 
 
