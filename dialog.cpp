@@ -5,13 +5,29 @@
 #include "ui_mainwindow.h"
 #include "connection.h"
 #include <QMessageBox>
+#include <QIntValidator>
+#include <QTextStream>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QTextDocument>
+
+
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    //ui->tableView->setModel(Ptemp.afficher());
+    ui->tableView->setModel(Ptemp.afficher());
+    ui->lineEdit_ID->setValidator(new QRegExpValidator(QRegExp("\\d+"), this));
+    ui->lineEdit_Nom->setValidator(new QRegExpValidator(QRegExp("[A-Za-z]+"), this));
+    ui->lineEdit_Type->setValidator(new QRegExpValidator(QRegExp("[A-Za-z]+"), this));
+    ui->lineEdit_Poids->setValidator(new QRegExpValidator(QRegExp("\\d+"), this));
+    ui->lineEdit_Prix->setValidator(new QRegExpValidator(QRegExp("\\d+"), this));
+    ui->lineEdit_Qte->setValidator(new QRegExpValidator(QRegExp("\\d+"), this));
+
 }
 
 Dialog::~Dialog()
@@ -27,21 +43,6 @@ void Dialog::setProduit(Produit p){
     ui->lineEdit_Qte->setText(p.getQte());
 }
 
-/*void Dialog::on_pushButton_clicked()
-{
-    Produit p;
-    p.setID(ui->lineEdit_ID->text());
-    p.setNom(ui->lineEdit_Nom->text());
-    p.setType(ui->lineEdit_Type->text());
-    p.setPoids(ui->lineEdit_Poids->text());
-    p.setPrix(ui->lineEdit_Prix->text());
-    p.setQte(ui->lineEdit_Qte->text());
-
-Dialog d;
-d.setProduit(p);
-d.exec();
-
-}*/
 
 void Dialog::on_pushButton_Add_clicked(){
     int ID=ui->lineEdit_ID->text().toInt();
@@ -54,6 +55,7 @@ void Dialog::on_pushButton_Add_clicked(){
    Produit P(ID,Nom,Type,Poids,Prix,Qte);
    bool test=P.ajouter();
    if (test){
+       ui->tableView->setModel(Ptemp.afficher());
        QMessageBox::information(nullptr,QObject::tr("OK"),QObject::tr("Ajout effectué \n"),QMessageBox::Cancel);
    }
    else QMessageBox::critical(nullptr,QObject::tr("Not OK"), QObject::tr("Ajout non effectué\n"),QMessageBox::Cancel);
@@ -63,6 +65,7 @@ void Dialog::on_pushButton_Delete_clicked(){
     int ID=ui->lineEdit_IDd->text().toInt();
     bool test=Ptemp.supprimer(ID);
     if (test){
+        ui->tableView->setModel(Ptemp.afficher());
         QMessageBox::information(nullptr,QObject::tr("OK"),QObject::tr("Supression effectuée \n"),QMessageBox::Cancel);
     }
     else QMessageBox::critical(nullptr,QObject::tr("Not OK"), QObject::tr("Suppression non effectuée\n"),QMessageBox::Cancel);
@@ -73,3 +76,94 @@ void Dialog::on_pushButton_Delete_clicked(){
 
 
 
+
+void Dialog::on_pushButton_Edit_clicked()
+{
+    int ID=ui->lineEdit_ID->text().toInt();
+    QString Nom=ui->lineEdit_Nom->text();
+    QString Type=ui->lineEdit_Type->text();
+    QString Poids=ui->lineEdit_Poids->text();
+    QString Prix=ui->lineEdit_Prix->text();
+    QString Qte=ui->lineEdit_Qte->text();
+
+   Produit P(ID,Nom,Type,Poids,Prix,Qte);
+   bool test=P.modifier();
+   if (test){
+       ui->tableView->setModel(Ptemp.afficher());
+       QMessageBox::information(nullptr,QObject::tr("OK"),QObject::tr("Modification effectuée \n"),QMessageBox::Cancel);
+   }
+   else QMessageBox::critical(nullptr,QObject::tr("Not OK"), QObject::tr("Modification non effectuée\n"),QMessageBox::Cancel);
+}
+
+
+
+/*void Dialog::on_lineEdit_ID_textChanged(const QString &arg1)
+{
+
+}*/
+
+
+
+void Dialog::on_pushButton_PDF_clicked()
+{
+    QString strStream;
+    QTextStream out(&strStream);
+    const int rowC=ui->tableView->model()->rowCount();
+    const int columnC=ui->tableView->model()->columnCount();
+    out <<  "<html>\n"
+            "<head>\n"
+            "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+            <<  QString("<title>%1</title>\n").arg("strTitle")
+            <<  "</head>\n"
+            "<body bgcolor=#ffffff link=#5000A0>\n"
+
+            //     "<align='right'> " << datefich << "</align>"
+            "<center> <H1>Liste des Produits</H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+    //headers
+    out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+        for (int column = 0; column < columnC; column++)
+            if (!ui->tableView->isColumnHidden(column))
+                out << QString("<th>%1</th>").arg(ui->tableView->model()->headerData(column, Qt::Horizontal).toString());
+        out << "</tr></thead>\n";
+    //data
+        for (int row = 0; row < rowC; row++)
+            {
+                out << "<tr> <td bkcolor=0>" << row + 1 << "</td>";
+                for (int column = 0; column < columnC; column++)
+                {
+                    if (!ui->tableView->isColumnHidden(column))
+                    {
+                        QString data = ui->tableView->model()->data(ui->tableView->model()->index(row, column)).toString().simplified();
+                        out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                    }
+                }
+                out << "</tr>\n";
+            }
+        out <<  "</table> </center>\n"
+                "</body>\n"
+                "</html>\n";
+        //getting file name
+        QString fileName = QFileDialog::getSaveFileName((QWidget * )0, "Sauvegarder en PDF", QString(), "*.pdf");
+            if (QFileInfo(fileName).suffix().isEmpty())
+            {
+                fileName.append(".pdf");
+            }
+
+            QPrinter printer (QPrinter::PrinterResolution);
+                printer.setOutputFormat(QPrinter::PdfFormat);
+                printer.setPaperSize(QPrinter::A4);
+                printer.setOutputFileName(fileName);
+
+                QTextDocument doc;
+                doc.setHtml(strStream);
+                doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+                doc.print(&printer);
+
+}
+
+void Dialog::on_pushButton_TPrix_clicked()
+{
+    Produit p;
+    ui->tableView->setModel(p.tri(ui->tableView->currentIndex().column()));
+    //ui->tableView->setModel(Ptemp.afficher());
+}

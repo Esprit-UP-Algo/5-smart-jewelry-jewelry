@@ -1,5 +1,6 @@
 #include "produit.h"
 #include <QStandardItemModel>
+#include <QIntValidator>
 Produit::Produit()
 {
  ID=NULL;
@@ -36,6 +37,9 @@ QString Produit::getQte(){return Qte;}
 bool Produit::ajouter(){
     Produit p;
  QSqlQuery query;
+ QIntValidator* intValidator= new QIntValidator();
+ intValidator->setRange(0,9);
+ //QlineEdit_
  query.prepare("insert into Produit (ID, Nom, Type, Poids, Prix, Qte)" "values(:ID, :Nom, :Type ,:Poids, :Prix, :Qte)");
 
  query.bindValue(":ID",ID);
@@ -67,4 +71,27 @@ QSqlQueryModel * Produit::afficher(){
     model->setHeaderData(5,Qt::Horizontal, QObject::tr("Qte"));
 
     return model;
+}
+
+bool Produit::modifier(){
+    QSqlQuery query;
+    query.prepare("UPDATE Produit SET Nom =:Nom, Type =:Type, Poids =:Poids, Prix =:Prix, Qte =:Qte WHERE ID =:ID");
+
+    query.bindValue(":ID",ID);
+    query.bindValue(":Nom",Nom);
+    query.bindValue(":Type",Type);
+    query.bindValue(":Poids",Poids);
+    query.bindValue(":Prix",Prix);
+    query.bindValue(":Qte",Qte);
+
+    return query.exec();
+
+}
+
+QSqlTableModel * Produit::tri(int Prix){
+    QSqlTableModel *newmodel= new QSqlTableModel();
+    newmodel->setTable("Produit");
+    newmodel->setSort(Prix,Qt::DescendingOrder);
+    return newmodel;
+
 }

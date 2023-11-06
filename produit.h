@@ -3,6 +3,7 @@
 #include<QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSqlTableModel>
 
 class Produit
 {
@@ -26,6 +27,8 @@ public:
     bool ajouter();
     QSqlQueryModel * afficher();
     bool supprimer(int);
+    bool modifier();
+    QSqlTableModel * tri(int);
 private:
     int ID;
     QString Nom, Type, Poids, Prix, Qte;
