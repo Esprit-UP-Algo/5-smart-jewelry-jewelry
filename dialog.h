@@ -25,6 +25,8 @@ private slots:
 
     void on_pushButton_TPrix_clicked();
 
+    void on_lineEdit_recherche_textChanged(QString);
+
 private:
     Ui::Dialog *ui;
     Produit Ptemp;

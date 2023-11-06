@@ -97,10 +97,7 @@ void Dialog::on_pushButton_Edit_clicked()
 
 
 
-/*void Dialog::on_lineEdit_ID_textChanged(const QString &arg1)
-{
 
-}*/
 
 
 
@@ -167,3 +164,12 @@ void Dialog::on_pushButton_TPrix_clicked()
     ui->tableView->setModel(p.tri(ui->tableView->currentIndex().column()));
     //ui->tableView->setModel(Ptemp.afficher());
 }
+
+void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
+{
+    Produit p;
+    Nom=ui->lineEdit_recherche->text();
+    p.rechercher(ui->tableView,Nom);
+
+}
+

@@ -1,6 +1,7 @@
 #include "produit.h"
 #include <QStandardItemModel>
 #include <QIntValidator>
+#include <QTableView>
 Produit::Produit()
 {
  ID=NULL;
@@ -60,7 +61,7 @@ bool Produit::supprimer(int IDx){
     return query.exec();
 }
 
-QSqlQueryModel * Produit::afficher(){
+/*QSqlQueryModel * Produit::afficher(){
     QSqlQueryModel * model= new QSqlQueryModel();
     model->setQuery("select * from Produit");
     model->setHeaderData(0,Qt::Horizontal, QObject::tr("ID"));
@@ -71,6 +72,14 @@ QSqlQueryModel * Produit::afficher(){
     model->setHeaderData(5,Qt::Horizontal, QObject::tr("Qte"));
 
     return model;
+}*/
+QSqlTableModel * Produit::afficher()
+{
+
+    QSqlTableModel *mmodel = new QSqlTableModel();
+    mmodel->setTable("PRODUIT");
+    mmodel->select();
+    return mmodel;
 }
 
 bool Produit::modifier(){
@@ -93,5 +102,17 @@ QSqlTableModel * Produit::tri(int Prix){
     newmodel->setTable("Produit");
     newmodel->setSort(Prix,Qt::DescendingOrder);
     return newmodel;
+
+}
+
+void Produit::rechercher(QTableView *tableView, QString nomx){
+    QSqlQueryModel *model= new QSqlQueryModel();
+    QSqlQuery *query=new QSqlQuery;
+
+    query->prepare("select * from Produit where (Nom like '%"+nomx+"%' )");
+    query->exec();
+    model->setQuery(*query);
+    tableView->setModel(model);
+    tableView->show();
 
 }

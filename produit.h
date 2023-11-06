@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
+#include <QTableView>
 
 class Produit
 {
@@ -25,10 +26,12 @@ public:
     Produit(int,QString,QString,QString,QString,QString);
 
     bool ajouter();
-    QSqlQueryModel * afficher();
+    //QSqlQueryModel * afficher();
+    QSqlTableModel * afficher();
     bool supprimer(int);
     bool modifier();
     QSqlTableModel * tri(int);
+    void rechercher(QTableView*, QString);
 private:
     int ID;
     QString Nom, Type, Poids, Prix, Qte;
