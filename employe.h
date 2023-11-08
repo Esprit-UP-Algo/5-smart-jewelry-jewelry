@@ -35,6 +35,7 @@ public:
     bool ajouter();
     QSqlQueryModel * afficher();
     bool supprimer(int);
+    bool modifier(int);
 
 
 };

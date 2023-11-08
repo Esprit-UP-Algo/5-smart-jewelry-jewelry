@@ -27,6 +27,8 @@ private slots:
 
     void on_tabWidget_tabBarClicked(int index);
 
+    void on_pushButton_modifier_clicked();
+
 private:
     Ui::MainWindow *ui;
     employe e;

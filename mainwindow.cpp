@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
         ui->tableView->setModel(e.afficher());
         ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
+        ui->lineEdit_cinsupp->setValidator(new QIntValidator(0,99999999,this));
         ui->lineEdit_abs->setValidator(new QIntValidator(0,999,this));
         ui->lineEdit_dateE->setValidator(new QIntValidator(0,99999999,this));
         ui->lineEdit_salaire->setValidator(new QIntValidator(0,99999,this));
@@ -86,4 +87,35 @@ void MainWindow::on_pushButton_supprimer_clicked()
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
     ui->tableView->setModel(e.afficher());
+}
+
+void MainWindow::on_pushButton_modifier_clicked()
+{
+
+    qDebug();
+    QString nom=ui->lineEdit_nom->text();
+    QString prenom=ui->lineEdit_prenom->text();
+    int CIN=ui->lineEdit_cin->text().toInt();
+    int abs=ui->lineEdit_abs->text().toInt();
+    int dateE=ui->lineEdit_dateE->text().toInt();
+    int salaire=ui->lineEdit_salaire->text().toInt();
+
+    employe e(nom,prenom,CIN,abs,dateE,salaire);
+
+    bool test=e.modifier(CIN);
+    if (test){
+
+
+        ui->tableView->setModel(e.afficher());
+        QMessageBox::information(nullptr, QObject::tr("ok"),
+                    QObject::tr("modifier avec success.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("not ok"),
+                    QObject::tr(" modifier non effectué.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
+
 }
