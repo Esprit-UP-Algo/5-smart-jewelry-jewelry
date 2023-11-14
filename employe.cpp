@@ -2,17 +2,18 @@
 #include<QString>
 #include<QObject>
 #include <iostream>
+#include <QDate>
 employe::employe()
 {
     CIN=0;
     nom="";
     prenom="";
     salaire=0;
-    dateE=0;
+
 
     abs=0;
 }
-employe::employe(QString nom,QString prenom,int CIN,int abs,int dateE,int salaire)
+employe::employe(QString nom,QString prenom,int CIN,int abs,QDate dateE,int salaire)
 {
     this->CIN=CIN;
     this->nom=nom;
@@ -44,7 +45,7 @@ bool employe::ajouter()
     }
 
     // Si l'employé n'existe pas, insérez-le
-    QString res1 = QString::number(dateE);
+
     QString res3 = QString::number(salaire);
     QString res4 = QString::number(abs);
 
@@ -52,7 +53,7 @@ bool employe::ajouter()
     query.bindValue(":CIN", res);
     query.bindValue(":nom", nom);
     query.bindValue(":prenom", prenom);
-    query.bindValue(":dateE", res1);
+    query.bindValue(":dateE", dateE);
     query.bindValue(":salaire", res3);
     query.bindValue(":abs", res4);
 
@@ -122,7 +123,7 @@ bool employe::modifier(int CIN)
     }
 
     // Si l'employé existe, mettez à jour les données
-    QString res1 = QString::number(dateE);
+
     QString res3 = QString::number(salaire);
     QString res4 = QString::number(abs);
 
@@ -130,7 +131,7 @@ bool employe::modifier(int CIN)
     query.bindValue(":CIN", res);
     query.bindValue(":nom", nom);
     query.bindValue(":prenom", prenom);
-    query.bindValue(":dateE", res1);
+    query.bindValue(":dateE", dateE);
     query.bindValue(":salaire", res3);
     query.bindValue(":abs", res4);
 

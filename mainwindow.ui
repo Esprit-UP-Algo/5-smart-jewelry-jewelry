@@ -148,16 +148,6 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_dateE">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>290</y>
-        <width>113</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="lineEdit_abs">
       <property name="geometry">
        <rect>
@@ -238,6 +228,42 @@
       </property>
       <property name="text">
        <string>cin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_stat">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>300</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>stat</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_pdf">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>300</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PDF</string>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>290</y>
+        <width>110</width>
+        <height>22</height>
+       </rect>
       </property>
      </widget>
     </widget>

@@ -3,6 +3,7 @@
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QDate>
 
 
 class employe
@@ -10,25 +11,27 @@ class employe
 
 public:
     employe();
-    employe(QString,QString,int,int,int,int);
+    employe(QString,QString,int,int,QDate,int);
 
 
     QString getnom(){return nom;}
     QString getprenom(){return prenom;}
     int getcin(){return CIN;}
     int getsalaire(){return salaire;}
-    int getdateE(){return dateE;}
+    QDate getdateE(){return dateE;}
 
     int getabs(){return abs;}
     void setcin(int nvcin){CIN=nvcin;}
     void setnom(QString n){nom=n;}
     void setprenom(QString p){prenom=p;}
     void setsalaire(int s){salaire=s;}
-    void setdateE(int d){dateE=d;}
+    void setdateE(QDate d){dateE=d;}
 
     void setabs(int a){abs=a;}
     QString nom,prenom;
-    int CIN,salaire,dateE,abs;
+    int CIN,salaire,abs;
+    QDate dateE;
+
 
 
 

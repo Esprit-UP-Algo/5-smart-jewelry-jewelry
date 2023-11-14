@@ -14,7 +14,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    void exportToPDF();
+    void afficherStatistiques();
+    void revenirPageInitiale();
+    QWidget *mainWidget;
+    QWidget *statsWidget;
+
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -24,13 +31,22 @@ private slots:
 
     void on_pushButton_supprimer_clicked();
 
-
-    void on_tabWidget_tabBarClicked(int index);
+    void on_tabWidget_currentChanged(int index);
 
     void on_pushButton_modifier_clicked();
+
+    void on_pushButton_pdf_clicked();
+
+    void on_pushButton_stat_clicked();
+
+
+
 
 private:
     Ui::MainWindow *ui;
     employe e;
 };
 #endif // MAINWINDOW_H
+
+
+
