@@ -28,9 +28,12 @@ HEADERS += \
     conection.h \
     employe.h \
     mainwindow.h
+    ui_login.h
+
 
 FORMS += \
     mainwindow.ui
+    ui_login.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

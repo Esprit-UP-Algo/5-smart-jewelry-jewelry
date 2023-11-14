@@ -4,14 +4,14 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QDate>
-
+#include <QTableView>
 
 class employe
 {
 
 public:
     employe();
-    employe(QString,QString,int,int,QDate,int);
+    employe(QString,QString,int,int,QDate,int,QString);
 
 
     QString getnom(){return nom;}
@@ -28,7 +28,7 @@ public:
     void setdateE(QDate d){dateE=d;}
 
     void setabs(int a){abs=a;}
-    QString nom,prenom;
+    QString nom,prenom,mdp;
     int CIN,salaire,abs;
     QDate dateE;
 
@@ -39,6 +39,16 @@ public:
     QSqlQueryModel * afficher();
     bool supprimer(int);
     bool modifier(int);
+
+
+    QSqlQueryModel* trierParSalaire();
+        QSqlQueryModel* trierParDateEmbauche();
+
+         void rechercher(QTableView*, int);
+
+
+
+
 
 
 };

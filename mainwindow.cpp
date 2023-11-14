@@ -88,8 +88,9 @@ void MainWindow::on_pushButton_ajouter_clicked()
     int abs=ui->lineEdit_abs->text().toInt();
     QDate dateE=ui->dateEdit->date();
     int salaire=ui->lineEdit_salaire->text().toInt();
+    QString mdp=ui->lineEdit_mdp->text();
 
-    employe e(nom,prenom,CIN,abs,dateE,salaire);
+    employe e(nom,prenom,CIN,abs,dateE,salaire,mdp);
 
     bool test=e.ajouter();
     if (test){
@@ -140,8 +141,9 @@ void MainWindow::on_pushButton_modifier_clicked()
     int abs=ui->lineEdit_abs->text().toInt();
     QDate dateE=ui->dateEdit->date();
     int salaire=ui->lineEdit_salaire->text().toInt();
+    QString mdp=ui->lineEdit_mdp->text();
 
-    employe e(nom,prenom,CIN,abs,dateE,salaire);
+    employe e(nom,prenom,CIN,abs,dateE,salaire,mdp);
 
     bool test=e.modifier(CIN);
     if (test){
@@ -322,4 +324,48 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 void MainWindow::on_pushButton_stat_clicked()
 {
     afficherStatistiques();
+}
+
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+    // Instanciez un objet employe
+        employe e;
+
+        // Obtenez le critère de tri sélectionné
+        QString critereTri = ui->comboBox->currentText();
+
+        // Obtenez le modèle trié en fonction du critère sélectionné
+        QSqlQueryModel *modelTri;
+
+        if (critereTri == "Salaire") {
+            modelTri = e.trierParSalaire();
+        } else if (critereTri == "Date d'embauche") {
+            modelTri = e.trierParDateEmbauche();
+        } else {
+            // Gérez toute autre option ou erreur ici
+            return;
+        }
+
+        // Utilisez le modèle trié pour mettre à jour votre vue (par exemple, QTableView)
+        ui->tableView->setModel(modelTri);
+}
+
+//*********************************
+
+void MainWindow::on_pushButton_rechcin_clicked()
+{
+    employe e;
+
+    // Récupération du CIN depuis le lineEdit
+    int CIN = ui->lineEdit_rechcin->text().toInt();
+
+    // Appel de la fonction de recherche avec le CIN récupéré et la vue de table
+   e.rechercher(ui->tableView,CIN);
+}
+
+void MainWindow::on_pushButton_raf_clicked()
+{
+    ui->tableView->setModel(e.afficher());
+
 }
