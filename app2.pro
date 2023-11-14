@@ -21,17 +21,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     conection.cpp \
     employe.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     conection.h \
     employe.h \
+    login.h \
     mainwindow.h
     ui_login.h
 
 
 FORMS += \
+    login.ui \
     mainwindow.ui
     ui_login.ui
 

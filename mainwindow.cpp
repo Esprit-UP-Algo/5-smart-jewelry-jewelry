@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->lineEdit_nom->setValidator(new QRegExpValidator(QRegExp("^[A-Za-z_]{1,8}$"), this));
         ui->lineEdit_prenom->setMaxLength(8);
         ui->lineEdit_prenom->setValidator(new QRegExpValidator(QRegExp("^[A-Za-z_]{1,8}$"), this));
+        ui->lineEdit_rechcin->setValidator(new QIntValidator(0,99999999,this));
 
 
         // Créez le widget principal

@@ -5,6 +5,8 @@
 #include <QDate>
 #include <QDebug>
 #include <QTableView>
+#include <QMessageBox>
+#include <QSqlError>
 employe::employe()
 {
     CIN=0;
@@ -165,18 +167,46 @@ QSqlQueryModel* employe::trierParDateEmbauche()
 //++++++++++++++
 void employe::rechercher(QTableView *tableView, int CIN) {
     QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery *query = new QSqlQuery;
+    QSqlQuery query; // Pas besoin d'allouer dynamiquement ici
 
-    // Préparation de la requête SQL avec un paramètre dynamique
-    query->prepare("SELECT * FROM employe WHERE CIN = :cin");
-    query->bindValue(":cin", CIN);
-    query->exec();
-    // Configuration du modèle avec les résultats de la requête
-    model->setQuery(*query);
-    model->sort(0, Qt::AscendingOrder);
-    // Configuration de la vue de table avec le modèle
-    tableView->setModel(model);
+    // Préparez la requête SQL avec la clause WHERE
+    query.prepare("SELECT * FROM employe WHERE CIN = :cin");
+    query.bindValue(":cin", CIN);
 
-    // Affichage de la vue de table
-    tableView->show();
+    // Exécutez la requête préparée
+    if (query.exec()) {
+        // Configuration du modèle avec les résultats de la requête
+        model->setQuery(query);
+
+        if (model->rowCount() > 0) {
+            // Si des résultats sont trouvés, triez le modèle par ordre croissant sur la première colonne (0)
+            model->sort(0, Qt::AscendingOrder);
+
+            // Configuration de la vue de table avec le modèle
+            tableView->setModel(model);
+
+            // Affichage de la vue de table
+            tableView->show();
+
+            // Affichage d'un message de succès
+            QMessageBox::information(nullptr, QObject::tr("OK"),
+                                     QObject::tr("Recherche réussie.\n"
+                                                 "Click Cancel to exit."), QMessageBox::Cancel);
+        } else {
+            // Aucun résultat trouvé
+            qDebug() << "Aucun employé trouvé avec le CIN : " << CIN;
+
+            // Affichage d'un message indiquant que la recherche n'a donné aucun résultat
+            QMessageBox::information(nullptr, QObject::tr("Aucun résultat"),
+                                     QObject::tr("Aucun employé trouvé avec le CIN spécifié."), QMessageBox::Ok);
+        }
+    } else {
+        // Gestion de l'erreur de la requête SQL
+        qDebug() << "Erreur lors de la recherche par CIN : " << query.lastError().text();
+
+        // Affichage d'un message d'erreur en cas d'échec de la requête SQL
+        QMessageBox::critical(nullptr, QObject::tr("Erreur"),
+                              QObject::tr("Erreur lors de la recherche par CIN.\n"
+                                          "Click Cancel to exit."), QMessageBox::Cancel);
+    }
 }
