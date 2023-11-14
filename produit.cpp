@@ -96,11 +96,30 @@ bool Produit::modifier(){
 
 }
 
-QSqlTableModel * Produit::tri(int Prix){
-    QSqlTableModel *newmodel= new QSqlTableModel();
-    newmodel->setTable("Produit");
-    newmodel->setSort(Prix,Qt::DescendingOrder);
-    return newmodel;
+
+
+QSqlQueryModel * Produit::triPrix(){
+    QSqlQueryModel * model = new QSqlQueryModel;
+    model->setQuery("Select * from Produit order by Prix");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Type"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Poids"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Prix"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Qte"));
+    return model;
+
+}
+QSqlQueryModel * Produit::triQte(){
+    QSqlQueryModel * model = new QSqlQueryModel;
+    model->setQuery("Select * from Produit order by Qte");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Type"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Poids"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Prix"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Qte"));
+    return model;
 
 }
 
@@ -115,3 +134,14 @@ void Produit::rechercher(QTableView *tableView, QString nomx){
     tableView->show();
 
 }
+/*void Produit::rechercherT(QTableView *tableView, QString Typex){
+    QSqlQueryModel *model= new QSqlQueryModel();
+    QSqlQuery *query=new QSqlQuery;
+
+    query->prepare("select * from Produit where (Type like '%"+Typex+"%' )");
+    query->exec();
+    model->setQuery(*query);
+    tableView->setModel(model);
+    tableView->show();
+
+}*/

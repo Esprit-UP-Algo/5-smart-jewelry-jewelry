@@ -994,10 +994,10 @@ color: rgb(255, 176, 38);
       </rect>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_rccherche">
+    <widget class="QComboBox" name="comboBox">
      <property name="geometry">
       <rect>
-       <x>1200</x>
+       <x>1190</x>
        <y>190</y>
        <width>62</width>
        <height>22</height>
@@ -1013,6 +1013,19 @@ color: rgb(255, 176, 38);
        <string>Type</string>
       </property>
      </item>
+    </widget>
+    <widget class="QPushButton" name="pushButton_TQte">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>160</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TRI Quantité</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="Login">

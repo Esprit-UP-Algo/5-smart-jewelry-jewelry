@@ -31,7 +31,10 @@ public:
     bool supprimer(int);
     bool modifier();
     QSqlTableModel * tri(int);
+    QSqlQueryModel * triPrix();
+    QSqlQueryModel * triQte();
     void rechercher(QTableView*, QString);
+    //void rechercherT(QTableView*, QString);
 private:
     int ID;
     QString Nom, Type, Poids, Prix, Qte;

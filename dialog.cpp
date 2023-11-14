@@ -12,9 +12,10 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextDocument>
+#include <QSqlQueryModel>
 
 
-
+Produit temp;
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
@@ -171,10 +172,10 @@ void Dialog::on_pushButton_PDF_clicked()
 
 void Dialog::on_pushButton_TPrix_clicked()
 {
-    Produit p;
-    ui->tableView->setModel(p.tri(ui->tableView->currentIndex().column()));
-    //ui->tableView->setModel(Ptemp.afficher());
+    ui->tableView->setModel(temp.triPrix());
 }
+
+
 
 void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
 {
@@ -183,4 +184,20 @@ void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
     p.rechercher(ui->tableView,Nom);
 
 }
+/*void Dialog::on_lineEdit_recherche_textChanged(QString Nom,QString Type)
+{
+    Produit p;
+    if(ui->comboBox->currentText()=="Nom"){
+    Nom=ui->lineEdit_recherche->text();
+    p.rechercherN(ui->tableView,Nom);}
+    else if (ui->comboBox->currentText()=="Type");
+    Type=ui->lineEdit_recherche->text();
+    p.rechercherT(ui->tableView,Type);)
 
+}*/
+
+
+void Dialog::on_pushButton_TQte_clicked()
+{
+    ui->tableView->setModel(temp.triQte());
+}
