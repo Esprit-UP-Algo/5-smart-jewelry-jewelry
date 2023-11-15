@@ -47,14 +47,14 @@
      <widget class="QTabWidget" name="tabWidget">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>70</x>
         <y>40</y>
-        <width>471</width>
+        <width>861</width>
         <height>471</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -147,24 +147,18 @@
         <widget class="QPushButton" name="ajout">
          <property name="geometry">
           <rect>
-           <x>250</x>
-           <y>310</y>
-           <width>41</width>
+           <x>210</x>
+           <y>320</y>
+           <width>81</width>
            <height>28</height>
           </rect>
          </property>
          <property name="text">
-          <string>+</string>
+          <string>ajout</string>
          </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_date">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>90</y>
-           <width>113</width>
-           <height>22</height>
-          </rect>
+         <property name="icon">
+          <iconset>
+           <normaloff>../Users/skand/OneDrive/Bureau/design C++/Untitled-1.png</normaloff>../Users/skand/OneDrive/Bureau/design C++/Untitled-1.png</iconset>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_statut">
@@ -177,6 +171,140 @@
           </rect>
          </property>
         </widget>
+        <widget class="QPushButton" name="modif">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>320</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>MODIFIER</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_date">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>90</y>
+           <width>113</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QTableView" name="tableView_r">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>110</y>
+          <width>461</width>
+          <height>192</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>tri par total</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pdf">
+        <property name="geometry">
+         <rect>
+          <x>470</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PDF</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_recherche">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>60</y>
+          <width>191</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="recherche_pushButton">
+        <property name="geometry">
+         <rect>
+          <x>740</x>
+          <y>60</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>rechercher</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>40</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>recherche par num</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="historique">
+        <property name="geometry">
+         <rect>
+          <x>580</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>historique</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="statistiques">
+        <property name="geometry">
+         <rect>
+          <x>700</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>stat</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_stat">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>350</y>
+          <width>371</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -211,14 +339,14 @@
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>60</x>
+          <x>10</x>
           <y>90</y>
-          <width>111</width>
+          <width>231</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string>NUMERO DE COMMANDE A SUPPRIMER</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pushButton_supp">
@@ -232,6 +360,47 @@
         </property>
         <property name="text">
          <string>supp</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>chat</string>
+       </attribute>
+       <widget class="QLineEdit" name="lineEdit_chatbot">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>310</y>
+          <width>113</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="envoyer">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>envoyer</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_chatbot_response">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>100</y>
+          <width>481</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>

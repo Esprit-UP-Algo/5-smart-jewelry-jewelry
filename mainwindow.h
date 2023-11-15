@@ -21,6 +21,20 @@ private slots:
 
     void on_pushButton_supp_clicked();
 
+    void on_modif_clicked();
+
+    void on_recherche_pushButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pdf_clicked();
+
+    void on_envoyer_clicked();
+
+    void on_historique_clicked();
+
+    void on_statistiques_clicked();
+
 private:
     Ui::MainWindow *ui;
     Commande c;

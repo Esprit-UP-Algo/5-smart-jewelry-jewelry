@@ -3,6 +3,7 @@
 #include<QString>
 #include<QSqlQuery>
 #include<QSqlQueryModel>
+#include <string>
 
 class Commande
 {
@@ -22,8 +23,18 @@ public:
 
       //fonctionnalite de base relatives a l'entite commande
        bool ajouter();
-       QSqlQueryModel * afficher();
+       QSqlQueryModel * afficher()const;
        bool supprimer(int);
+       bool modifier(int);
+       QSqlQueryModel *rechercher(int);
+       QSqlQueryModel* tri();
+       void exporterPDF(const QString &nomFichier) const;
+       std::string chatbotFunction(const QString &userMessage);
+       QSqlQueryModel* historique() const;
+       int getNombreCommandesParStatut(const QString& statut);
+       int getTotalCommandes();
+
+
 private:
     int numero,total,date_;
     QString statut;
