@@ -262,26 +262,5 @@ bool Client::exists(const QString id)
     return query.next();
 }
 
-int Client::statistiqueHommes(QString sexe)
-{
-    QSqlQuery query;
-    query.prepare("SELECT COUNT(*) FROM CLIENT WHERE SEXE_C = :sexe");
-    query.bindValue(":sexe",sexe);
-    query.exec();
-
-    int count = 0;
-
-    while (query.next())
-    {
-        count = query.value(0).toInt();
-    }
-
-            QString message = QString("Number of male clients: %1").arg(count);
-            QMessageBox::information(nullptr, "Male Clients Statistic", message);
-
-
-    return count;
-
-}
 
 

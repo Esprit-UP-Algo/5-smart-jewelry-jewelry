@@ -187,10 +187,16 @@ void MainWindow::on_chercher_clicked()
           QString id=ui->chercher_id->text();
           query->prepare("SELECT * FROM CLIENT WHERE ID_C  LIKE :id");
           query->bindValue(":id", id + "%");
-
-
+           query->exec();
+           if (query->next()) {
+           model->setQuery(*query);
            ui->tab_client->setModel(model);
-
+           }
+           else {
+               QMessageBox::critical(nullptr, QObject::tr("SEARCH"),
+                               QObject::tr("NO MATCH FOUND !.\n"
+                                           "Click Cancel to exit."), QMessageBox::Cancel);
+               ui->chercher_id->clear();}
 }
 
 
@@ -202,7 +208,18 @@ void MainWindow::on_pdf_clicked()
        const int rowCount = ui->tab_client->model()->rowCount();
        const int columnCount = ui->tab_client->model()->columnCount();
 
+       out <<  "<html>\n"
+           "<head>\n"
+           "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+           <<  QString("<title>%1</title>\n").arg("strTitle")
+           <<  "</head>\n"
+           "<body bgcolor=#ffffff link=#5000A0>\n"
 
+           //     "<align='right'> " << datefich << "</align>"
+           "<center> <H1>Liste Des Clients </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+       // headers
+       out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
        for (int column = 0; column < columnCount; column++)
            if (!ui->tab_client->isColumnHidden(column))
                out << QString("<th>%1</th>").arg(ui->tab_client->model()->headerData(column, Qt::Horizontal).toString());
@@ -237,7 +254,10 @@ void MainWindow::on_pdf_clicked()
        printer.setPaperSize(QPrinter::A4);
        printer.setOutputFileName(fileName);
 
-
+       QTextDocument doc;
+       doc.setHtml(strStream);
+       doc.setPageSize(printer.pageRect().size());
+       doc.print(&printer);
 
 }
 
@@ -264,7 +284,9 @@ void MainWindow::on_stat_clicked()
 
       QChart *chart = new QChart();
       chart->addSeries(series);
-
+      chart->setAnimationOptions(QChart::SeriesAnimations);
+    chart->setTitle(" Gender chart  :");
+    chart ->setTheme(QChart::ChartThemeBlueCerulean);
     QChartView *chartview = new QChartView(chart);
     chartview->setRenderHint(QPainter::Antialiasing);
     if (ui->horizontalFrame) {

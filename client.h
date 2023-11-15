@@ -33,7 +33,6 @@ QSqlQueryModel* afficher_id();
 bool supprimer(QString);
 bool modifier( );
 bool exists(const QString );
-int statistiqueHommes(QString );
 
 
 
