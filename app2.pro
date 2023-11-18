@@ -1,5 +1,6 @@
 QT       += core gui printsupport
 QT       += core gui sql
+QT       += core gui network
 QT += charts
 QT += widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -19,21 +20,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    calendrier.cpp \
+    chat.cpp \
     conection.cpp \
     employe.cpp \
+    events.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    calendrier.h \
+    chat.h \
     conection.h \
     employe.h \
+    events.h \
     login.h \
     mainwindow.h
     ui_login.h
-
+    ui_calendrier.h
 
 FORMS += \
+    calendrier.ui \
+    chat.ui \
     login.ui \
     mainwindow.ui
     ui_login.ui

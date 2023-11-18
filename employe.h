@@ -12,7 +12,10 @@ class employe
 public:
     employe();
     employe(QString,QString,int,int,QDate,int,QString);
-
+    //++++++++++
+    void afficherMessagerie();
+        void envoyerMessage(employe *destinataire, const QString &message);
+     QString messages;  // Stocke les messages pour cet employé
 
     QString getnom(){return nom;}
     QString getprenom(){return prenom;}

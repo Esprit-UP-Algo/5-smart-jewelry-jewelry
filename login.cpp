@@ -18,7 +18,6 @@ login::~login()
     delete ui;
 }
 
-
 void login::on_pushButton_login_clicked()
 {
     employe e;
@@ -36,17 +35,18 @@ void login::on_pushButton_login_clicked()
         this->hide();
                 MainWindow *auth = new MainWindow;
                 auth->show();
+
     } else {
         QMessageBox::critical(nullptr, QObject::tr("not ok"),
                     QObject::tr(" please enter valid id or password.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
-  }
+    }
+
 
 }
+
 
 void login::on_lineEdit_password_textChanged(const QString &text)
 {
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
 }
-
-

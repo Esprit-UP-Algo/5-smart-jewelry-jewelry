@@ -47,6 +47,14 @@ private slots:
 
     void on_pushButton_raf_clicked();
 
+
+    void on_pushButton_chat_clicked();
+
+    //void on_calendarWidget_clicked(const QDate &dateE);
+
+
+    void on_pushButton_eve_clicked();
+
 private:
     Ui::MainWindow *ui;
     employe e;

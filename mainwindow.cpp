@@ -7,6 +7,7 @@
 using namespace std;
 #include"employe.h"
 #include"conection.h"
+#include "calendrier.h"
 #include <iostream>
 
 
@@ -28,6 +29,9 @@ using namespace std;
 #include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
 QT_CHARTS_USE_NAMESPACE
+//chat
+#include "chat.h"
+#include "ui_chat.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,6 +73,24 @@ MainWindow::MainWindow(QWidget *parent)
             QPushButton *backButton = new QPushButton("Revenir à la page initiale", statsWidget);
             connect(backButton, SIGNAL(clicked()), this, SLOT(revenirPageInitiale()));
             // Positionnez et stylisez le bouton selon vos besoins
+
+
+
+
+            //+++++
+            //QPushButton *btnAfficherMessagerie = new QPushButton("Messagerie", this);
+            //connect(btnAfficherMessagerie, &QPushButton::clicked, this, &employe::afficherMessagerie);
+
+            // Exemple de champ de texte pour saisir un message
+            QLineEdit *lineEditMessage = new QLineEdit(this);
+
+            // Exemple de bouton pour envoyer un message
+            QPushButton *btnEnvoyerMessage = new QPushButton("Envoyer Message", this);
+            connect(btnEnvoyerMessage, &QPushButton::clicked, [=]() {
+                employe destinataire;  // Remplacez cela par la logique pour sélectionner le destinataire
+                employe e;
+                e.envoyerMessage(&destinataire, lineEditMessage->text());
+            });
 
 }
 
@@ -282,19 +304,35 @@ void MainWindow::afficherStatistiques() {
     chart->addSeries(series);
 
     // Créer l'axe X et définir le titre
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+        QBarCategoryAxis *axisX = new QBarCategoryAxis();
+        chart->addAxis(axisX, Qt::AlignBottom);
+        axisX->setTitleText("employées");
+        series->attachAxis(axisX);
+    /*
+        // Créer l'axe Y et définir le titre
+        QValueAxis *axisY = new QValueAxis();
+        axisY->setTitleText("Nombre d'absences");
+        chart->addAxis(axisY, Qt::AlignLeft);
+        series->attachAxis(axisY);
+    */
 
-    // Créer l'axe Y et définir le titre
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setTitleText("Nombre d'absences");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
 
-    // Créer la vue du graphique
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+
+
+        // Créer l'axe Y et définir le titre
+        QValueAxis *axisY = new QValueAxis();
+        axisY->setTitleText("Nombre d'absences");
+
+        // Configurer l'axe pour afficher des étiquettes entières
+        axisY->setLabelFormat("%d");
+        axisY->setTickCount(10);  // Nombre de marques sur l'axe, ajustez selon vos besoins
+
+        chart->addAxis(axisY, Qt::AlignLeft);
+        series->attachAxis(axisY);
+        // Créer la vue du graphique
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+
 
     // Créer une nouvelle fenêtre pour afficher le graphique
     QMainWindow *statsWindow = new QMainWindow();
@@ -368,5 +406,25 @@ void MainWindow::on_pushButton_rechcin_clicked()
 void MainWindow::on_pushButton_raf_clicked()
 {
     ui->tableView->setModel(e.afficher());
+
+}
+//++++++++++++
+
+void MainWindow::on_pushButton_chat_clicked()
+{
+    /*this->hide();*/
+    chat *auth = new chat;
+    auth->show();
+}
+
+
+
+
+
+
+void MainWindow::on_pushButton_eve_clicked()
+{
+    calendrier *auth = new calendrier;
+    auth->show();
 
 }

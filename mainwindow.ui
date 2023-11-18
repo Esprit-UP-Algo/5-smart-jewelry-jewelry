@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>692</height>
+    <width>1584</width>
+    <height>957</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>50</y>
-      <width>991</width>
-      <height>591</height>
+      <x>30</x>
+      <y>80</y>
+      <width>1311</width>
+      <height>841</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -358,6 +358,45 @@
        <string>raffraichir</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton_chat">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>410</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>chat</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>350</y>
+        <width>56</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>par cin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_eve">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>460</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>evenement</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -366,7 +405,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1080</width>
+     <width>1584</width>
      <height>26</height>
     </rect>
    </property>

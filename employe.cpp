@@ -210,3 +210,18 @@ void employe::rechercher(QTableView *tableView, int CIN) {
                                           "Click Cancel to exit."), QMessageBox::Cancel);
     }
 }
+
+//+++++++++++
+void employe::afficherMessagerie()
+{
+    // Implémentez la logique d'affichage de la messagerie ici
+    // Vous pouvez utiliser une boîte de dialogue, une fenêtre, etc.
+    // Par exemple, afficher les messages dans une QMessageBox
+    QMessageBox::information(nullptr, "Messagerie", messages);
+}
+void employe::envoyerMessage(employe *destinataire, const QString &message)
+{
+    // Implémentez la logique d'envoi de message ici
+    // Par exemple, ajouter le message à la liste des messages du destinataire
+    destinataire->messages += QString("De %1 : %2\n").arg(prenom).arg(message);
+}
