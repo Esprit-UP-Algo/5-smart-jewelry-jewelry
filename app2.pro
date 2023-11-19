@@ -27,7 +27,8 @@ SOURCES += \
     events.cpp \
     login.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    oublier.cpp
 
 HEADERS += \
     calendrier.h \
@@ -36,16 +37,20 @@ HEADERS += \
     employe.h \
     events.h \
     login.h \
-    mainwindow.h
+    mainwindow.h \
+    oublier.h
     ui_login.h
     ui_calendrier.h
+    ui_oublier.h
 
 FORMS += \
     calendrier.ui \
     chat.ui \
     login.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    oublier.ui
     ui_login.ui
+    ui_oublier.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

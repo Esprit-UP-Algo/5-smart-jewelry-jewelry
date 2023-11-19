@@ -2,6 +2,7 @@
 #include "login.h"
 #include "mainwindow.h"
 #include "employe.h"
+#include "oublier.h"
 #include <QMainWindow>
 #include <QMessageBox>
 
@@ -49,4 +50,10 @@ void login::on_pushButton_login_clicked()
 void login::on_lineEdit_password_textChanged(const QString &text)
 {
     ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+}
+
+void login::on_pushButton_oublier_clicked()
+{
+    oublier *auth = new oublier;
+    auth->show();
 }

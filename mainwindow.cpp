@@ -8,6 +8,7 @@ using namespace std;
 #include"employe.h"
 #include"conection.h"
 #include "calendrier.h"
+#include "oublier.h"
 #include <iostream>
 
 
@@ -428,3 +429,5 @@ void MainWindow::on_pushButton_eve_clicked()
     auth->show();
 
 }
+//*************
+
