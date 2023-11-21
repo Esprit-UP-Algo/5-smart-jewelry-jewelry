@@ -28,6 +28,7 @@ private slots:
     void on_pushButton_PDF_clicked();
     void on_pushButton_TPrix_clicked();
     void on_pushButton_TQte_clicked();
+<<<<<<< HEAD
     void on_pushButton_stats_clicked();
     void on_lineEdit_recherche_textChanged(QString);
 
@@ -40,6 +41,12 @@ private slots:
 
 
     void on_pushButton_Excel_clicked();
+=======
+
+    void on_lineEdit_recherche_textChanged(QString);
+
+
+>>>>>>> 288da9dbd02a8bde5bf884f4635e6cbe134f6078
 
 private:
     Ui::Dialog *ui;

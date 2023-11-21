@@ -146,8 +146,11 @@ void Produit::rechercher(QTableView *tableView, QString nomx){
     tableView->show();
 
 }*/
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> 288da9dbd02a8bde5bf884f4635e6cbe134f6078

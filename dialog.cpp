@@ -13,6 +13,7 @@
 #include <QPrintDialog>
 #include <QTextDocument>
 #include <QSqlQueryModel>
+<<<<<<< HEAD
 #include <QBarSet>
 #include <QtCharts>
 #include <QChartView>
@@ -24,6 +25,10 @@
 #include <QSystemTrayIcon>
 #include <exportexcelobject.h>
 
+=======
+
+
+>>>>>>> 288da9dbd02a8bde5bf884f4635e6cbe134f6078
 Produit temp;
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -195,13 +200,27 @@ void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
     p.rechercher(ui->tableView,Nom);
 
 }
+/*void Dialog::on_lineEdit_recherche_textChanged(QString Nom,QString Type)
+{
+    Produit p;
+    if(ui->comboBox->currentText()=="Nom"){
+    Nom=ui->lineEdit_recherche->text();
+    p.rechercherN(ui->tableView,Nom);}
+    else if (ui->comboBox->currentText()=="Type");
+    Type=ui->lineEdit_recherche->text();
+    p.rechercherT(ui->tableView,Type);)
 
+<<<<<<< HEAD
+=======
+}*/
+>>>>>>> 288da9dbd02a8bde5bf884f4635e6cbe134f6078
 
 
 void Dialog::on_pushButton_TQte_clicked()
 {
     ui->tableView->setModel(temp.triQte());
 }
+<<<<<<< HEAD
 
 
 
@@ -355,3 +374,5 @@ void Dialog::on_pushButton_Excel_clicked()
                                     );
        }
 }
+=======
+>>>>>>> 288da9dbd02a8bde5bf884f4635e6cbe134f6078
