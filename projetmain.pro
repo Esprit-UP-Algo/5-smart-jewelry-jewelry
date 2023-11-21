@@ -6,6 +6,8 @@
 
 QT       += sql
 QT += printsupport
+QT       += charts
+include(QZXing/QZXing.pri)
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +29,7 @@ CONFIG += c++11
 
 SOURCES += \
     dialog.cpp \
+    exportexcelobject.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
@@ -34,6 +37,7 @@ SOURCES += \
 
 HEADERS += \
     dialog.h \
+    exportexcelobject.h \
         mainwindow.h \
     connection.h \
     produit.h

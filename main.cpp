@@ -27,5 +27,6 @@ int main(int argc, char *argv[])
     Dialog d;
 
     d.show();
+    d.produitOOS();
     return a.exec();
 }

@@ -12,14 +12,25 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextDocument>
+#include <QSqlQueryModel>
+#include <QBarSet>
+#include <QtCharts>
+#include <QChartView>
+#include <QBarSet>
+#include <QBarSeries>
+#include <QChartView>
+#include <QImage>
+#include <QImageWriter>
+#include <QSystemTrayIcon>
+#include <exportexcelobject.h>
 
-
-
+Produit temp;
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    mSystemTrayIcon=new QSystemTrayIcon(this);
     ui->tableView->setModel(Ptemp.afficher());
     ui->lineEdit_ID->setValidator(new QRegExpValidator(QRegExp("\\d+"), this));
     ui->lineEdit_Nom->setValidator(new QRegExpValidator(QRegExp("[A-Za-z]+"), this));
@@ -66,7 +77,8 @@ void Dialog::on_pushButton_Add_clicked(){
 }}
 
 void Dialog::on_pushButton_Delete_clicked(){
-    int ID=ui->lineEdit_IDd->text().toInt();
+    int ID=ui->lineEdit_3->text().toInt();
+
     int existe=0;
     QSqlQuery query;
     query.prepare("select * from Produit where ID=:ID");
@@ -171,10 +183,10 @@ void Dialog::on_pushButton_PDF_clicked()
 
 void Dialog::on_pushButton_TPrix_clicked()
 {
-    Produit p;
-    ui->tableView->setModel(p.tri(ui->tableView->currentIndex().column()));
-    //ui->tableView->setModel(Ptemp.afficher());
+    ui->tableView->setModel(temp.triPrix());
 }
+
+
 
 void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
 {
@@ -184,3 +196,162 @@ void Dialog::on_lineEdit_recherche_textChanged(QString Nom)
 
 }
 
+
+
+void Dialog::on_pushButton_TQte_clicked()
+{
+    ui->tableView->setModel(temp.triQte());
+}
+
+
+
+void Dialog::produitOOS()
+{
+    QSqlQuery query;
+    query.prepare("SELECT ID, Nom FROM Produit WHERE Qte = 0");
+    if (!query.exec())
+    {
+        QMessageBox::critical(this, "Error", "Failed to execute the query.");
+        return;
+    }
+
+    if (query.next())
+    {
+        QString message = "Produits Hors-stock:\n\n";
+        do
+        {
+            int id = query.value("ID").toInt();
+            QString name = query.value("Nom").toString();
+            message += QString("ID: %1, Nom: %2\n").arg(id).arg(name);
+        } while (query.next());
+
+        QMessageBox *infoBox = new QMessageBox(this);
+        infoBox->setWindowTitle("Search Result");
+        infoBox->setText(message);
+        infoBox->setIcon(QMessageBox::Information);
+        QTimer::singleShot(10000, infoBox, &QMessageBox::close); // Close after 5000 milliseconds (5 seconds)
+        infoBox->exec();
+    }
+    else
+    {
+        QMessageBox *infoBox = new QMessageBox(QMessageBox::Information, "Search Result", "Pas de produits Hors-stock.", QMessageBox::Ok, this);
+        QTimer::singleShot(5000, infoBox, &QMessageBox::close); // Close after 5000 milliseconds (5 seconds)
+        infoBox->exec();
+    }
+}
+
+
+void Dialog::on_pushButton_OOS_clicked()
+{
+    produitOOS();
+}
+
+void Dialog::afficherStatistiques() {
+    QBarSeries *series = new QBarSeries();
+
+    // Récupérer les données d'absence depuis la base de données
+    QSqlQuery query;
+    query.prepare("SELECT Qte, Nom FROM Produit");
+    if (query.exec()) {
+        while (query.next()) {
+            QString nom = query.value("Nom").toString();
+            int Qte = query.value("Qte").toInt();
+
+            QBarSet *QteSet = new QBarSet(nom);
+            *QteSet << Qte;
+
+            series->append(QteSet);
+        }
+    } else {
+        qDebug() << "Erreur lors de l'exécution de la requête SQL : " << query.lastError().text();
+        return;
+    }
+
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+
+    // Créer l'axe X et définir le titre
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setTitleText("Quantité");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QMainWindow *statsWindow = new QMainWindow();
+    statsWindow->setCentralWidget(chartView);
+
+
+    QPushButton *closeButton = new QPushButton("Fermer", statsWindow);
+    QObject::connect(closeButton, &QPushButton::clicked, statsWindow, &QMainWindow::close);
+
+
+    statsWindow->resize(800, 600);
+
+    statsWindow->show();
+}
+
+void Dialog::on_pushButton_stats_clicked()
+{
+    afficherStatistiques();
+}
+
+
+
+/*void Dialog::on_pushButton_QR_clicked()
+{
+    QDesktopServices::openUrl(QUrl("https://app.qr-code-generator.com/manage/?aftercreate=1&count=1"));
+        QString filename = QFileDialog::getSaveFileName(this,tr("choose"),"",tr("Image(*.png )"));
+        if (QString::compare(filename,QString()) !=0)
+        {
+            QImage image;
+            bool valid = image.load(filename);
+            if(valid)
+            {
+                image=image.scaledToWidth(ui->label_24->width(), Qt::SmoothTransformation);
+                        ui->label_24->setPixmap(QPixmap::fromImage(image));
+            }
+            else
+            {
+                //ERROR HANDLING
+            }
+}
+}*/
+//METIER QR (VOIDED BUT WORKS)
+
+
+void Dialog::on_pushButton_Excel_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                       tr("Excel Files (*.xls)"));
+       if (fileName.isEmpty())
+           return;
+
+       ExportExcelObject obj(fileName, "Produit", ui->tableView);
+
+       //colums to export
+       obj.addField(0, "ID", "char(20)");
+       obj.addField(1, "Nom", "char(20)");
+       obj.addField(2, "Type", "char(20)");
+       obj.addField(3, "Poids", "char(20)");
+       obj.addField(4, "Prix", "char(20)");
+       obj.addField(5, "Qte", "char(20)");
+
+
+
+       int retVal = obj.export2Excel();
+       if( retVal > 0)
+       {
+           QMessageBox::information(this, tr("Done"),
+                                    QString(tr("%1 records exported!")).arg(retVal)
+                                    );
+       }
+}
