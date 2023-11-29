@@ -7,14 +7,24 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <algorithm>
+#include <QMap>
+#include <QHash>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QDate>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsScene>
+
 Commande::Commande()
 {
     numero=0;
-    date_=0;
+    date_="";
     total=0;
     statut="";
 }
-Commande::Commande(int numero,int date_,int total,QString statut)
+Commande::Commande(int numero,QString date_,int total,QString statut)
 {
     this->numero=numero;
     this->total=total;
@@ -35,14 +45,13 @@ bool Commande::ajouter()
     } else {
         // Le numéro de commande n'existe pas, procéder à l'ajout
         QString num_string = QString::number(numero);
-        QString date_string = QString::number(date_);
         QString total_string = QString::number(total);
 
         QSqlQuery query;
         query.prepare("INSERT INTO Commande (numero, date_, total, statut) "
                       "VALUES (:numero, :date_, :total, :statut)");
         query.bindValue(":numero", num_string);
-        query.bindValue(":date_", date_string);
+        query.bindValue(":date_", date_);
         query.bindValue(":total", total_string);
         query.bindValue(":statut", statut);
 
@@ -61,16 +70,7 @@ QSqlQueryModel * Commande::afficher()const
             return model;
 
 }
-/*
-bool Commande::supprimer(int numero)
-{
-          QSqlQuery query;
-          QString res=QString::number(numero);
-          query.prepare("Delete from Commande where numero=:numero ");
-          query.bindValue(":numero", numero);
-         return  query.exec();
-}
-*/
+
 bool Commande::supprimer(int numero)
 {
     // Vérifier si le numéro de commande existe avant de le supprimer
@@ -96,11 +96,10 @@ bool Commande::modifier(int numero)
 {
     QSqlQuery query;
     QString res= QString::number(numero);
-    QString res1= QString::number(date_);
     QString res3= QString::number(total);
     query.prepare("update commande set numero=:numero,date_=:date_,total=:total,statut=:statut WHERE numero=:numero");
     query.bindValue(":numero",res);
-    query.bindValue(":date_",res1);
+    query.bindValue(":date_",date_);
     query.bindValue(":total",res3);
     query.bindValue(":statut",statut);
     return query.exec();
@@ -196,30 +195,144 @@ QSqlQueryModel* Commande::historique() const
 {
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery query;
-    query.prepare("SELECT * FROM commande ORDER BY date_ DESC");
+    query.prepare("SELECT * FROM commande ORDER BY TO_DATE(date_, 'DD/MM/YYYY') DESC");
     if (query.exec()) {
         model->setQuery(query);
     }
     return model;
 }
-int Commande::getNombreCommandesParStatut(const QString& statut)
+void Commande::exporterHistoriqueTexte(const QString &nomFichier) const
+{
+    QFile file(nomFichier);
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream stream(&file);
+        stream << "Liste des Commandes\n\n";
+
+        QSqlQueryModel *model = historique();
+
+        for (int row = 0; row < model->rowCount(); ++row)
+        {
+            stream << "date: " << model->data(model->index(row, 2)).toString() << "\t";
+            stream << "numero: " << model->data(model->index(row, 1)).toString() << "\t";
+            stream << "total: " << model->data(model->index(row, 0)).toString() << "\t";
+            stream << "statut: " << model->data(model->index(row, 3)).toString() << "\n";
+        }
+
+        file.close();
+    }
+    else {
+        qDebug() << "Erreur lors de l'ouverture du fichier : " << file.errorString();
+    }
+}
+
+QString Commande::statistiquesParStatut()
+{
+    int commandesEnCours = getNombreCommandesParStatut("en cours");
+    int commandesValidees = getNombreCommandesParStatut("validee");
+    int totalCommandes = commandesEnCours + commandesValidees;
+
+    QtCharts::QPieSeries *pieSeries = new QtCharts::QPieSeries();
+
+    QtCharts::QPieSlice *enCoursSlice = new QtCharts::QPieSlice();
+    QtCharts::QPieSlice *valideeSlice = new QtCharts::QPieSlice();
+
+    enCoursSlice->setBrush(QColor(Qt::red));
+    valideeSlice->setBrush(QColor(Qt::blue));
+
+    if (totalCommandes > 0) {
+        enCoursSlice->setValue(static_cast<double>(commandesEnCours));
+        valideeSlice->setValue(static_cast<double>(commandesValidees));
+    }
+
+    pieSeries->append(enCoursSlice);
+    pieSeries->append(valideeSlice);
+
+    enCoursSlice->setLabel(QObject::tr("En cours") + ": " + QString::number(enCoursSlice->percentage() * 100, 'f', 1) + "%");
+    valideeSlice->setLabel(QObject::tr("Validée") + ": " + QString::number(valideeSlice->percentage() * 100, 'f', 1) + "%");
+
+    QtCharts::QChart *chart = new QtCharts::QChart();
+    chart->addSeries(pieSeries);
+    chart->setTitle("Statistiques des commandes");
+
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    chartView->show();
+
+    QString statistiques = "Statistiques des commandes :\n";
+    statistiques += QObject::tr("En cours") + " : " + QString::number(enCoursSlice->percentage() * 100, 'f', 1) + "%\n";
+    statistiques += QObject::tr("Validée") + " : " + QString::number(valideeSlice->percentage() * 100, 'f', 1) + "%";
+
+    return statistiques;
+}
+/*
+QGraphicsScene& Commande::statistiquesParStatut()
+{
+    int commandesEnCours = getNombreCommandesParStatut("en cours");
+    int commandesValidees = getNombreCommandesParStatut("validee");
+    int totalCommandes = commandesEnCours + commandesValidees;
+
+    QtCharts::QPieSeries *pieSeries = new QtCharts::QPieSeries();
+
+    QtCharts::QPieSlice *enCoursSlice = new QtCharts::QPieSlice();
+    QtCharts::QPieSlice *valideeSlice = new QtCharts::QPieSlice();
+
+    enCoursSlice->setBrush(QColor(Qt::red));
+    valideeSlice->setBrush(QColor(Qt::blue));
+
+    if (totalCommandes > 0) {
+        enCoursSlice->setValue(static_cast<double>(commandesEnCours));
+        valideeSlice->setValue(static_cast<double>(commandesValidees));
+    }
+
+    pieSeries->append(enCoursSlice);
+    pieSeries->append(valideeSlice);
+
+    enCoursSlice->setLabel(QObject::tr("En cours") + ": " + QString::number(enCoursSlice->percentage() * 100, 'f', 1) + "%");
+    valideeSlice->setLabel(QObject::tr("Validée") + ": " + QString::number(valideeSlice->percentage() * 100, 'f', 1) + "%");
+
+    QtCharts::QChart *chart = new QtCharts::QChart();
+    chart->addSeries(pieSeries);
+    chart->setTitle("Statistiques des commandes");
+
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QGraphicsProxyWidget *proxyWidget = new QGraphicsProxyWidget();
+    proxyWidget->setWidget(chartView);
+
+    QGraphicsScene *scene = new QGraphicsScene();
+    scene->addItem(proxyWidget);
+
+    return *scene;
+}
+*/
+int Commande::getNombreCommandesParStatut(const QString &statut)
 {
     QSqlQuery query;
-    query.prepare("SELECT COUNT(*) FROM commande WHERE statut = :statut");
+    query.prepare("SELECT COUNT(*) FROM Commande WHERE statut = :statut");
     query.bindValue(":statut", statut);
-    query.exec();
 
-    if (query.next()) {
+    if (query.exec() && query.next()) {
         return query.value(0).toInt();
     }
 
-    return 0;
+    return -1; // Une valeur négative indique une erreur
 }
-int Commande::getTotalCommandes()
+bool Commande::commandeExists()
 {
-    QSqlQuery query("SELECT COUNT(*) FROM commande");
-    if (query.next()) {
-        return query.value(0).toInt();
+    QSqlQuery query("SELECT COUNT(*) FROM commande WHERE etat = 'annuler'");
+
+    if (query.exec() && query.next()) {
+        int count = query.value(0).toInt();
+
+        // If there are commands with state 'annuler', return true
+        if (count > 0) {
+            return true;
+        }
     }
-    return 0;
+
+    return false;
 }

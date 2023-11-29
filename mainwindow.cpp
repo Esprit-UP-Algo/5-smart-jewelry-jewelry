@@ -8,12 +8,19 @@
 #include<QPrinter>
 #include <QFileDialog>
 #include <QTextDocument>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
+#include <QVBoxLayout>
+
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tab_commande->setModel(c.afficher());
+    ui->tableView_r->setModel(c.afficher());
 }
 
 MainWindow::~MainWindow()
@@ -25,13 +32,13 @@ void MainWindow::on_ajout_clicked()
 {
 
     int numero=ui->lineEdit_N->text().toInt();
-    int date_=ui->lineEdit_date->text().toInt();
+    QString date_ = ui->lineEdit_date->text();
     int total=ui->lineEdit_total->text().toInt();
     QString statut=ui->lineEdit_statut->text();
-    Commande C ( numero, date_, total, statut );
+    Commande C(numero,date_,total,statut);
     bool test=C.ajouter();
     if (test){
-        ui->tab_commande->setModel(c.afficher());
+        ui->tableView_r->setModel(c.afficher());
         QMessageBox::information(nullptr,QObject::tr("ok"),
                 QObject::tr("ajouter effectue \n"
                             "click cancel to exit."), QMessageBox::Cancel);
@@ -48,7 +55,7 @@ void MainWindow::on_pushButton_supp_clicked()
         int numero =ui->num_supp->text().toInt();
         bool test=c.supprimer(numero);
         if (test){
-            ui->tab_commande->setModel(c.afficher());
+            ui->tableView_r->setModel(c.afficher());
             QMessageBox::information(nullptr,QObject::tr("ok"),
                     QObject::tr("suppression  effectue \n"
                                 "click cancel to exit."), QMessageBox::Cancel);
@@ -64,7 +71,7 @@ void MainWindow::on_modif_clicked()
 
     qDebug();
     int numero=ui->lineEdit_N->text().toInt();
-    int date=ui->lineEdit_date->text().toInt();
+    QString date = ui->lineEdit_date->text();
     int total=ui->lineEdit_total->text().toInt();
     QString statut=ui->lineEdit_statut->text();
 
@@ -74,7 +81,7 @@ void MainWindow::on_modif_clicked()
     if (test){
 
 
-        ui->tab_commande->setModel(c.afficher());
+        ui->tableView_r->setModel(c.afficher());
         QMessageBox::information(nullptr, QObject::tr("ok"),
                     QObject::tr("modifier avec success.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
@@ -97,7 +104,7 @@ void MainWindow::on_recherche_pushButton_clicked()
         ui->tableView_r->setModel(result);
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_tri_clicked()
 {
 
         Commande commande;
@@ -109,7 +116,7 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pdf_clicked()
 {  QString fileName = QFileDialog::getSaveFileName(this, "Exporter en PDF", "", "Fichiers PDF (*.pdf)");
     if (fileName.isEmpty()) {
-        return;  // L'utilisateur a annulé la boîte de dialogue
+        return;
     }
 
     QPrinter printer(QPrinter::HighResolution);
@@ -148,7 +155,7 @@ void MainWindow::on_pdf_clicked()
 
 
     // Obtain the client data from your table model
-    QSqlQueryModel *model = static_cast<QSqlQueryModel*>(ui->tab_commande->model());
+    QSqlQueryModel *model = static_cast<QSqlQueryModel*>(ui->tableView_r->model());
 
     // Fill the table data
     for (int row = 0; row < model->rowCount(); ++row) {
@@ -162,7 +169,6 @@ void MainWindow::on_pdf_clicked()
 
     doc.print(&printer);
 
-    // Display a success message
     QMessageBox::information(this, "Succès", "Liste des commandes exportée sous forme de PDF.");
 }
 
@@ -178,30 +184,39 @@ void MainWindow::on_envoyer_clicked()
 void MainWindow::on_historique_clicked()
 {
     Commande commande;
-        QSqlQueryModel* historiqueModel = commande.historique();
-        ui->tableView_r->setModel(historiqueModel);
+        QString fileName = QFileDialog::getSaveFileName(this, "Exporter l'historique en texte", "", "Fichiers texte (*.txt)");
+        if (!fileName.isEmpty()) {
+            commande.exporterHistoriqueTexte(fileName);
+            QMessageBox::information(this, "Succès", "Historique exporté sous forme de fichier texte.");
+        }
 }
 
 void MainWindow::on_statistiques_clicked()
 {
     Commande commande;
-
-       int totalCommandes = commande.getTotalCommandes();
-       int commandesEnCours = commande.getNombreCommandesParStatut("en cours");
-       int commandesValidee = commande.getNombreCommandesParStatut("validee");
-
-       double pourcentageEnCours = 0.0;
-       double pourcentageValidees = 0.0;
-
-       if (totalCommandes > 0) {
-           pourcentageEnCours = (static_cast<double>(commandesEnCours) / totalCommandes) * 100.0;
-           pourcentageValidees = (static_cast<double>(commandesValidee) / totalCommandes) * 100.0;
-       }
-
-       QString statistiques = "Statistiques des commandes :\n";
-       statistiques += "Nombre total de commandes : " + QString::number(totalCommandes) + "\n";
-       statistiques += "Nombre de commandes en cours : " + QString::number(commandesEnCours) + " (" + QString::number(pourcentageEnCours, 'f', 2) + "%)\n";
-       statistiques += "Nombre de commandes validées : " + QString::number(commandesValidee) + " (" + QString::number(pourcentageValidees, 'f', 2) + "%)";
+    QString statistiques = commande.statistiquesParStatut();
 
        ui->label_stat->setText(statistiques);
+}
+/*
+void MainWindow::on_statistiques_clicked()
+{
+    QGraphicsScene& scene = c.statistiquesParStatut();
+        ui->graphicsView_sta->setScene(&scene);
+}
+*/
+void MainWindow::connect_commande()
+{
+    Commande c;
+
+    // Check for command with status 'annuler'
+    if (c.commandeExists()) {
+        QByteArray data1;
+        data1.append('1');
+        A.write_to_arduino(data1);
+
+        qDebug() << "Commande avec statut 'annuler' trouvée";
+    } else {
+        // Handle other cases if needed
+    }
 }
