@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/1.png</file>
+        <file>image/2.png</file>
+        <file>image/3.png</file>
+        <file>image/ajouter.png</file>
+        <file>image/lo-removebg-preview.png</file>
+        <file>image/modifier.png</file>
+        <file>image/pdf.png</file>
+        <file>image/quitter.png</file>
+        <file>image/rafraichir.png</file>
+        <file>image/recherche.webp</file>
+        <file>image/trier.png</file>
+        <file>image/users-removebg-preview.png</file>
+        <file>image/zebla.png</file>
+        <file>image/stat.png</file>
+        <file>image/cal.png</file>
+        <file>image/menu.png</file>
+        <file>image/dar.jpg</file>
+        <file>image/statCl.png</file>
+        <file>image/contrat.png</file>
+        <file>image/m.png</file>
+        <file>image/mail.png</file>
+        <file>image/statCl2.png</file>
+        <file>image/contratCl2.png</file>
+    </qresource>
+</RCC>
